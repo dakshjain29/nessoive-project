@@ -25,8 +25,8 @@ let status;
     password:"U7aGK1nuLA2Bs2I2bcc9",                                       
     database:"bja9zz0bj4hctmw8wbni",
     dateStrings:true,
-    keepAliveInitialDelay : 10000,
-    enableKeepAlive : true,
+    keepAliveInitialDelay: 10000, // 0 by default.
+    enableKeepAlive: true, // false by default.
 }
  var mysql = mysql2.createConnection(config);
  mysql.connect(function(err)
