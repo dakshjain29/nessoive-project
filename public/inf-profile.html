@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+        function doPrev(ppic,Prev)
+        {
+            let [file] = ppic.files
+            if (file) {
+                Prev.src = URL.createObjectURL(file)
+            }
+        }
+    </script>
+    <script>
+    
+        $(document).ready(function(){
+
+            let active=localStorage.getItem("activeuser");
+            $("#txtEmail").val(active).prop("readonly",true);
+
+            $("#btnSearch").click(function(){
+                let obj={
+                        type:"get",
+                        url:"/find-user-details",
+                        data:{
+                            txtEmail:$("#txtEmail").val()
+                        }
+                    }
+                    $.ajax(obj).done(function(jsonAry)
+                    {
+                        if(jsonAry.length==0)
+                        {
+                            alert("Invalid ID");
+                            return;
+                        }
+                    
+                        //alert(JSON.stringify(jsonAry));
+                        $("#txtName").val(jsonAry[0].iname);
+                        $("#txtDob").val(jsonAry[0].dob);
+                        $("#imgprev").prop("src","upload/"+jsonAry[0].picpath);
+                        $("#txtGender").val(jsonAry[0].gender);
+                        $("#txtAdd").val(jsonAry[0].address);
+                        $("#txtCity").val(jsonAry[0].city);
+                        $("#txtContact").val(jsonAry[0].contact);
+                        $("#txtField").val(jsonAry[0].field.split(","));
+                        $("#txtInsta").val(jsonAry[0].insta);
+                        $("#txtYt").val(jsonAry[0].youtube);
+                        $("#txtOther").val(jsonAry[0].other);
+                      
+                    }).fail(function(err)
+                    {  
+                        alert(err.statusText);
+                    })
+            })
+        })
+
+
+
+    </script>
+    <script>
+
+      $(document).ready(function(){
+
+
+      if(localStorage.getItem("activeuser")==null){
+        location.href="index.html";
+      }
+
+        $("#btnlogout").click(function(){
+
+          localStorage.removeItem("activeuser");
+          location.href="index.html";
+
+        })
+      })
+    </script>
+
+
+    
+</head>
+
+<body style="background-color: #dcebf7;">
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+    <div class="container-fluid"  style="background-color:#fdfeff; height: 80px; float: left;">
+      <a class="navbar-brand" href="#"><h2>InfluenceME</h2></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText" style="margin-left: 900px;">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item" style="color: black;">
+            <button type="button" class="btn btn-primary" style="background-color: #dcebf7; color: black; border: 0px"  id="btnlogout">logout</button>
+            
+          </li>
+        </ul>   
+      </div>
+    </div>
+  </nav>
+  <div id="services" style="margin-top:0px; background-color: #192024;" >
+    <center>
+      <font size="6" color="#676770">
+        INFLUENCER PROFILE
+      </font>
+    </center>
+  </div>
+
+
+    <div class="row" style=" padding-top: 50px; padding-bottom: 50px; " >
+        <div class="col-md-10 offset-md-1" id="form">
+            <form class="row g-3" method="post" enctype="multipart/form-data">
+                <div class="col-md-4">
+                  <label for="inputEmail4"  style="color: #192024;" class="form-label">Email</label>
+                  <input type="email" class="form-control" name="txtEmail" id="txtEmail">
+                 </div>
+                <div class="col-md-2" style="padding-top: 25px;">
+                  <input style="margin-top: 5px; background-color: #192024;" type="button" name="btnSearch" class="btn btn-primary"  value="FILL PREV. DETAILS" id="btnSearch">  
+                </div>
+                <div class="col-md-4" style="margin-left: 70px;">
+                    <img src="" id="imgprev" width="100" height="100">
+                   <input type="file" id="ppic" name="ppic" onchange="doPrev(ppic,imgprev)">
+                   
+                </div>
+                <div class="col-4">
+                    <label  class="form-label"   color="#192024">Name</label>
+                    <input type="text" class="form-control" value="DAKSH" name="txtName" id="txtName" placeholder="Enter your Name" required>
+                </div>
+                <div class="col-4">
+                    <label  class="form-label"  style="color: #192024;">Gender</label>
+                    <select id="txtGender" name="txtGender" value="Male" class="form-select" required>
+                        <option value="none">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <label  class="form-label"  color="#192024" > DOB</label>
+                    <input type="date" class="form-select" id="txtDob" name="txtDob" required>
+                </div>
+                <div class="col-md-4">
+                  <label  class="form-label">Address</label>
+                  <input type="text" class="form-control" id="txtAdd" name="txtAdd" placeholder="1234 Main St" required>
+                </div>
+                
+                <div class="col-md-4">
+                  <label for="inputCity" class="form-label">City</label>
+                  <input type="text" class="form-control" id="txtCity" value="Delhi" name="txtCity" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Contact No:</label>
+                    <input type="text" class="form-control" id="txtContact" value="1234567898" name="txtContact" required>
+                  </div>
+                <div class="col-md-4">
+                  <label  class="form-label">Field</label>
+                  <select class="form-select" id="txtField" name="txtField" multiple required>
+                    <option value="none">Select</option>
+                    <option value="Fashion">Fashion/lifestyle</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Food">Food</option>
+                    <option value="Beauty">Beauty</option>
+                    <option value="Fitness">Fitness</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Edutech">Edutech</option>
+                    <option value="Parenting">Parenting</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Gaming">Gaming</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                    <label  class="form-label">Instagram Id</label>
+                    <input type="text" class="form-control" id="txtInsta" value="daksh@124" name="txtInsta" required>
+                  </div>
+                <div class="col-md-4">
+                  <label  class="form-label">Youtube</label>
+                  <input type="text" class="form-control" id="txtYt" name="txtYt" required>
+                </div>
+                <div class="col-md-8">
+                    
+                    <label for="exampleFormControlTextarea1">BIO</label>
+                    <textarea class="form-control" id="txtOther" value="har har mahadev" name="txtOther" rows="3"></textarea>
+                  </div>
+                <div class="col-md-4">
+                 
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" formaction="/iprofile-update" style="background-color: #192024;" class="btn btn-primary">Update</button>
+                  </div>
+                  <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary" style="background-color: #192024;" formaction="/idata-save">Save</button>
+                  </div>
+              </form>
+        </div>
+    </div>
+    
+</body>
+</html>

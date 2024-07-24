@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer-Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script>
+        var module=angular.module("mymodule",[]);
+        var controller=module.controller("mycontroller",function($scope,$http)
+    {
+
+      let active=localStorage.getItem("activeuser");
+      $scope.selemail=active;
+
+            $scope.jsonArrayCity;
+            $scope.jsonArrayAll;
+            $scope.jsonArrayName;
+            $scope.jsonArrayMoreinfo;
+            
+            ////////////////////////////////////////////////////////////////////
+            $scope.doShowSel=function()
+                {
+                    
+                  let field=$scope.selfield;
+                    let url="/fetch-some-field?field="+field;
+
+                    $http.get(url).then(allIsWell,notWell);
+
+                    function allIsWell(response)
+                    {
+                        //alert(JSON.stringify(response.data)) ;
+                        $scope.jsonArrayCity=response.data;
+
+                    }
+                    function notWell(err)
+                    {
+                        alert(err)
+                    }
+                }
+                //////////////////////////////////////////////////////////////////////////
+                $scope.doShowSelAll=function()
+                {
+                    //alert();
+                  let field=$scope.selfield;
+                  let city=$scope.selCity;
+
+                  //alert(field);
+                  //alert(city);
+                    let url="/fetch-all-details-selected-infl?field="+field+"&city="+city;;
+
+                    $http.get(url).then(allIsWell,notWell);
+
+                    function allIsWell(response)
+                    {
+                        alert(JSON.stringify(response.data)) ;
+                        $scope.jsonArrayAll=response.data;
+
+                    }
+                    function notWell(err)
+                    {
+                        alert(err)
+                    }
+                }
+                ////////////////////////////////////////////////////////////////////////////////////
+                $scope.doShowName=function()
+                {
+                    
+                    let name=$scope.name;
+                    let url="/fetch-some-name?name="+name;
+
+                    $http.get(url).then(allIsWell,notWell);
+
+                    function allIsWell(response)
+                    {
+                        //alert(JSON.stringify(response.data)) ;
+                        $scope.jsonArrayAll=response.data;
+
+                    }
+                    function notWell(err)
+                    {
+                        alert(err)
+                    }
+                }
+                ///////////////////////////////////////////////////////////////////////////////
+                $scope.doShowMoreinfo=function(index)
+                {
+                 
+                  $scope.jsonArrayMoreinfo =$scope.jsonArrayAll[index];
+                 // alert(index);
+                }
+                //==================================================================
+
+
+                $scope.dosendemail=function(email){
+
+                    let cltemail=$scope.selemail;
+                    let url="/send-mail?email="+email+"&cltemail="+cltemail;
+
+                    $http.get(url).then(allIsWell,notWell);
+
+                    function allIsWell(response)
+                    {
+                        //alert(JSON.stringify(response.data)) ;
+                        alert(response.data);
+
+                    }
+                    function notWell(err)
+                    {
+                        alert(err);
+                    }
+                
+                }
+    })
+    </script>
+
+
+<script>
+
+  $(document).ready(function(){
+
+
+  if(localStorage.getItem("activeuser")==null){
+    location.href="index.html";
+  }
+
+    $("#btnlogout").click(function(){
+
+      localStorage.removeItem("activeuser");
+      location.href="index.html";
+
+    })
+  })
+</script>
+
+</head>
+
+
+
+
+<body ng-app="mymodule" style="background-color: #d6e9f8;"  ng-controller="mycontroller" >
+
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" >
+    <div class="container-fluid"  style="background-color:white; height: 80px; float: left;">
+      <a class="navbar-brand" href="#"><h2>InfluenceME</h2></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText" style="margin-left: 900px;">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item" style="color: black;">
+            <button type="button" class="btn btn-primary" style="background-color: #d6e9f8; color: black; border: 0px"  id="btnlogout">logout</button>
+            
+          </li>
+        </ul>   
+      </div>
+    </div>
+  </nav>
+  
+  <div style="margin-top:0px; background-color: #192024;" >
+    <center>
+      <font size="6" color="#676770">
+        INFLUENCER FINDER
+      </font>
+    </center>
+  </div>
+    
+    
+   <div class="row" >
+    <div class="col-md-9 offset-md-3"  >
+      
+    <br>
+    <div class="row">
+      <div class="col-md-3 offset-md-3">
+        <div class="row">
+          <div class="col-md-12">
+    <h5 >SEARCH BY FIELD</h5>
+  </div>
+  </div>
+    </div>
+  </div>
+    <div class="row">
+    <div class="col-md-3" >
+      <label  class="form-label" >REQUIRED FIELDSET</label>
+      <select class="form-select" size="3" ng-model="selfield" ng-change="doShowSel();" multiple>
+        <option value="Fashion">Fashion/lifestyle</option>
+        <option value="Travel">Travel</option>
+        <option value="Food">Food</option>
+        <option value="Beauty">Beauty</option>
+        <option value="Fitness">Fitness</option>
+        <option value="Tech">Tech</option>
+        <option value="Edutech">Edutech</option>
+        <option value="Parenting">Parenting</option>
+        <option value="Finance">Finance</option>
+        <option value="Gaming">Gaming</option>
+      </select>
+    </div>
+    <!----------------------------------------------------------------------->
+    <div class="col-md-3" style="float: left;">
+        <label for="inputCity" class="form-label">City</label>
+        <select class="form-select" ng-model="selCity" >
+
+          <option ng-repeat="obj in jsonArrayCity" value="{{obj.city}}" >{{obj.city}}</option>
+      </select>
+      </div>
+    <!----------------------------------------------------------------------->
+
+    <div class="col-md-3" style="float: left ;padding-top: 30px;">
+      
+      <button type="submit" class="btn btn-primary" id="buttons" ng-click="doShowSelAll();">Find</button>
+    </div>
+      </div>
+    </div>
+    
+    <!---------------------------------------------------------------------->
+    <hr>
+    <div class="col-md-9 offset-md-3"  >
+
+      <div class="row">
+        <div class="col-md-3 offset-md-3">
+          <div class="row">
+            <div class="col-md-12">
+              <h5>SEARCH BY NAME</h5>
+
+    </div>
+    </div>
+      </div>
+    </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label  class="form-label">Name</label>
+            <input type="text" class="form-control" ng-model="name">
+          </div>
+      
+
+      <div class="col-md-3" style="padding-top: 30px;">
+        <button type="submit" class="btn btn-primary" id="buttons" ng-click="doShowName();">Search</button>
+      
+        </div>
+      </div>
+      <br>
+    </div>
+    
+      <hr>
+    
+   
+    <div class="col-md-10 offset-md-1">
+      <div class="row">
+        <br><br>
+        <center><h4>REQ. INFLUENCERS</h4></center>
+          <div class="col-md-3" ng-repeat="obj in jsonArrayAll" >
+              <div class="card mt-5" >
+                <center>  <img src="upload/{{obj.picpath}}" class="card-img-top" height="250px"></center>
+                  <div class="card-body">
+                    <h5 class="card-title">{{obj.iname}}</h5>
+                    <p class="card-title">{{obj.gender}}<p>
+                    <p>
+                      <a href="{{obj.insta}}">
+                          <img src="pics/youtube (2).png" alt=""  width="40px" height="40px">
+                       </a>
+                        
+                      <a href="https://www.instagram.com/{{obj.insta}}"> 
+                         <img src="pics/instagram (1).png" alt="" width="40px" height="40px"> 
+                       </a> 
+                      
+                    </p>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#more-info-model"
+                                 ng-click="doShowMoreinfo($index);">More-Info</button> 
+                  </div>
+                </div>
+          </div>
+      </div>
+  </div>
+   </div>
+    </div>
+    
+</div>
+</div>
+<!--Linking Modal-->
+<div class="modal fade" id="more-info-model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Influencer Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="row g-3">
+              <div class="col-md-6 d-flex justify-content-center">
+                <img src="upload/{{jsonArrayMoreinfo.picpath}}" alt="" width="150" height="150" style="border-radius: 50%;">
+                
+              </div>
+              <div class="col-md-6 ">
+                
+                  <a href="https://www.instagram.com/{{jsonArrayMoreinfo.insta}}"> <center> <img src="pics/instagram.png" alt="" width="40px" height="40px"> </center> </a> 
+                  <p></p>
+                  <a href="https://www.youtube.com//{{jsonArrayMoreinfo.yt}}"> <center> <img src="pics/youtube.png" alt="" width="40px" height="40px"> </center> </a> 
+                
+              </div>
+              <br><hr><br>
+              <div class="row">
+                  <div class="col-md-3 offset-md-2">
+                    <p><b>FullName</b></p> 
+                  </div>
+                  <div class="col-md-7">
+                    {{jsonArrayMoreinfo.iname}}
+                  </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-3 offset-md-2">
+                  <p><b>DOB</b></p>  
+                  
+                </div>
+                <div class="col-md-7">
+                  {{jsonArrayMoreinfo.dob}}
+                </div>
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-3 offset-md-2">
+                <p><b>EMAIL</b></p> 
+                
+              </div>
+              <div class="col-md-7">
+                {{jsonArrayMoreinfo.email}}
+              </div>
+
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-3 offset-md-2">
+              <p><b>CITY</b></p> 
+              
+            </div>
+            <div class="col-md-7">
+              {{jsonArrayMoreinfo.city}}
+            </div>
+
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-md-3 offset-md-2">
+            <p><b>MOBILE No</b></p> 
+            
+          </div>
+          <div class="col-md-7">
+            {{jsonArrayMoreinfo.contact}}
+          </div>
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-3 offset-md-2">
+          <p><b>FIELDS</b></p> 
+          
+        </div>
+        <div class="col-md-7">
+          {{jsonArrayMoreinfo.field}}
+        </div>
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-3 offset-md-2">
+        <p><b>BIO</b></p> 
+        
+      </div>
+      <div class="col-md-7">
+        {{jsonArrayMoreinfo.other}}
+      </div>
+
+  </div>
+     <br><hr>       
+               <div >
+                <button type="button" class="btn btn-primary" ng-click="dosendemail(jsonArrayMoreinfo.email);">SEND EMAIL</button> </center>
+                  
+               </div>
+
+          </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!--Linking it to script.js-->
+<script src="script.js"></script>
+</body>
+</html>

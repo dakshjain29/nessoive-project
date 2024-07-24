@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script>
+        var module=angular.module("mymodule",[]);
+        var controller=module.controller("mycontroller",function($scope,$http)
+        {
+            $scope.jsonaryall;
+            //----------------------
+            $scope.showallprofile=function()
+            {
+                let url="/fetch-all-profile";
+                $http.get(url).then(allwell,notwell)
+                
+                    function allwell(response){
+                    //alert(JSON.stringify(response.data));
+                    $scope.jsonaryprofile=response.data;
+                    }
+                    function notwell(err){
+                        alert(err);
+                    }
+                
+            }
+            //==========================================
+            
+           
+        })
+        
+    </script>
+
+</head>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" >
+    <div class="container-fluid"  style="background-color:white; height: 80px; float: left;">
+      <a class="navbar-brand" href="#"><h2>InfluenceME</h2></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText" style="margin-left: 900px;">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item" style="color: black;">
+           
+          </li>
+        </ul>   
+      </div>
+    </div>
+  </nav>
+
+<div style="margin-top:0px; background-color: #192024;" >
+    <center>
+      <font size="40" color="#676770">
+        ALL INFLUENCER DETAILS
+      </font>
+    </center>
+  </div>
+
+
+
+<body ng-app="mymodule" ng-controller="mycontroller" >
+    <br>
+    <center>
+        <button type="button" class="btn btn-primary" ng-click="showallprofile();">ALL USERS</button>
+
+    <br><br>
+        <table border="1" class="table">
+
+            <tr>
+                <td>S.No</td>                
+                <td>EMAIL</td>
+                <td>NAME</td>
+                <td>GENDER</td>
+                <td>DOB</td>
+                <td>ADDRESS</td>
+                <td>CITY</td>
+                <td>CONTACT</td>
+                <td>FIELD</td>
+                <td>INSTA ID</td>
+                <td>YOUTUBE</td>
+                <td>PIC</td>
+                <td>OTHER</td>
+
+            </tr>
+
+
+            <tr ng-repeat="obj in jsonaryprofile">
+                <td>
+                    {{$index+1}}
+                </td>
+                <td>
+                    {{obj.email}}
+                </td>
+                <td>
+                    {{obj.iname}}
+                </td>
+                <td>
+                    {{obj.gender}}
+                </td>
+                <td>
+                    {{obj.dob}}
+                </td>
+                <td>
+                    {{obj.address}}
+                </td>
+                <td>
+                    {{obj.city}}
+                </td>
+                <td>
+                    {{obj.contact}}
+                </td>
+                <td>
+                    {{obj.field}}
+                </td>
+                <td>
+                    {{obj.insta}}
+                </td>
+               
+                <td>
+                    {{obj.youtube}}
+                </td>
+                <td>
+                    <!-- {{obj.picpath}} -->
+                    <img src="upload/{{obj.picpath}}" width="150" height="90" alt="">
+                </td>
+                <td>
+                    {{obj.other}}
+                </td>
+               
+            
+            </tr>
+        </table>
+    </center>
+
+
+
+</body>
+</html>
