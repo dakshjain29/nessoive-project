@@ -50,8 +50,9 @@
                     
                         //alert(JSON.stringify(jsonAry));
                         $("#txtName").val(jsonAry[0].iname);
-                        $("#txtDob").val(jsonAry[0].dob);
-                        $("#imgprev").prop("src","upload/"+jsonAry[0].picpath);
+                        $("#txtDob").val(jsonAry[0].dob.split("T")[0]);
+                        //alert(jsonAry[0].dob);
+                        $("#imgprev").prop("src",jsonAry[0].picpath);
                         $("#txtGender").val(jsonAry[0].gender);
                         $("#txtAdd").val(jsonAry[0].address);
                         $("#txtCity").val(jsonAry[0].city);

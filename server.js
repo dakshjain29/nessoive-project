@@ -3,6 +3,7 @@ var fileuploader=require("express-fileupload")
 let app=express();
 var mysql2=require("mysql2");
 var nodemailer= require("nodemailer");
+var cloudinary = require("cloudinary").v2;
 app.listen(1931,function()
 {
     console.log("Server Started ....... at this host");
@@ -19,15 +20,26 @@ let status;
 //      dateStrings:true
 //  }
 
- let config = {             /////mysql databse connectivity
-    host :"bja9zz0bj4hctmw8wbni-mysql.services.clever-cloud.com",
-    user:"uw6jrjwdrdh8cu9x",
-    password:"U7aGK1nuLA2Bs2I2bcc9",                                       
-    database:"bja9zz0bj4hctmw8wbni",
-    dateStrings:true,
-    keepAliveInitialDelay: 10000, // 0 by default.
-    enableKeepAlive: true, // false by default.
-}
+//  let config = {             /////mysql databse connectivity
+//     host :"bja9zz0bj4hctmw8wbni-mysql.services.clever-cloud.com",
+//     user:"uw6jrjwdrdh8cu9x",
+//     password:"U7aGK1nuLA2Bs2I2bcc9",                                       
+//     database:"bja9zz0bj4hctmw8wbni",
+//     dateStrings:true,
+//     keepAliveInitialDelay: 10000, // 0 by default.
+//     enableKeepAlive: true, // false by default.
+// }
+
+cloudinary.config({ 
+    cloud_name: 'dyhwcnowc', 
+    api_key: '976766561633563', 
+    api_secret: 'NvYr89fxsFM80sJ9feZj5jj9xTI' // Click 'View Credentials' below to copy your API secret
+});
+
+
+let config = "mysql://avnadmin:AVNS_gw5Z4xLcfH36Huztp6k@mysql-9fc305b-dakshj2090-84fd.g.aivencloud.com:21854/defaultdb"
+
+
  var mysql = mysql2.createConnection(config);
  mysql.connect(function(err)
  {
@@ -104,14 +116,21 @@ app.get("/infl-profile",function(req,resp){
 })
 
 
-app.post("/idata-save",function(req,resp){
+app.post("/idata-save",async function(req,resp){
 
     let fileName="";
     if(req.files!=null)
         {
              fileName=req.files.ppic.name;
             let path=__dirname+"/public/upload/"+fileName;
-            req.files.ppic.mv(path);
+            //req.files.ppic.mv(path);
+
+            await cloudinary.uploader.upload(path)
+            .then(function(result){
+
+                fileName = result.url;
+            })
+
         }
         else
         {
@@ -128,7 +147,7 @@ app.post("/idata-save",function(req,resp){
     })
 })
 
-app.post("/iprofile-update",function(req,resp)
+app.post("/iprofile-update",async function(req,resp)
 {
     console.log(req.body);
 
@@ -139,7 +158,15 @@ app.post("/iprofile-update",function(req,resp)
         {
              fileName=req.files.ppic.name;
             let path=__dirname+"/public/upload/"+fileName;
-            req.files.ppic.mv(path);
+            //req.files.ppic.mv(path);
+
+            await cloudinary.uploader.upload(path)
+            .then(function(result){
+
+                fileName = result.url;
+            })
+
+
         }
         else
         {
