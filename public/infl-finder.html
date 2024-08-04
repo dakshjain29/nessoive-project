@@ -255,7 +255,7 @@
         <center><h4>REQ. INFLUENCERS</h4></center>
           <div class="col-md-3" ng-repeat="obj in jsonArrayAll" >
               <div class="card mt-5" >
-                <center>  <img src="upload/{{obj.picpath}}" class="card-img-top" height="250px"></center>
+                <center>  <img src="{{obj.picpath}}" class="card-img-top" height="250px"></center>
                   <div class="card-body">
                     <h5 class="card-title">{{obj.iname}}</h5>
                     <p class="card-title">{{obj.gender}}<p>
@@ -292,7 +292,7 @@
       <div class="modal-body">
           <div class="row g-3">
               <div class="col-md-6 d-flex justify-content-center">
-                <img src="upload/{{jsonArrayMoreinfo.picpath}}" alt="" width="150" height="150" style="border-radius: 50%;">
+                <img src="{{jsonArrayMoreinfo.picpath}}" alt="" width="150" height="150" style="border-radius: 50%;">
                 
               </div>
               <div class="col-md-6 ">
