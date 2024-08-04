@@ -63,7 +63,7 @@ app.post("/signup-details",function(req,resp)
      mysql.query("insert into users values(?,?,?,?)",[req.body.stxtEmail,req.body.stxtPwd,req.body.type,status],function(err)
     {
          if(err==null)
-             resp.send("Successfully Saved");
+             resp.redirect("result.html");
          else
              resp.send(err.message);
     })
@@ -139,7 +139,7 @@ app.post("/idata-save",async function(req,resp){
     mysql.query("insert into iprofile values(?,?,?,?,?,?,?,?,?,?,?,?)",[req.body.txtEmail,req.body.txtName,req.body.txtGender,req.body.txtDob,req.body.txtAdd,req.body.txtCity,req.body.txtContact,req.body.txtField.toString(),req.body.txtInsta,req.body.txtYt,req.body.txtOther,fileName],function(err,result){
 
         if(err==null){
-            resp.send("inserted");
+            resp.redirect("result.html");
         }
         else{
             resp.send(err.message);
@@ -179,7 +179,7 @@ app.post("/iprofile-update",async function(req,resp)
         if(err==null)//no error
         {
                if(result.affectedRows>=1) 
-                   resp.send("Updated  Successfulllyyyy....");
+                resp.redirect("result.html");
                 else
                     resp.send("Invalid Email ID");
         }
@@ -535,7 +535,7 @@ app.get("/save-client-details",function(req,resp){
     mysql.query("insert into cprofile values(?,?,?,?,?,?)",[req.query.cltxtemail,req.query.cltxtname,req.query.cltxtcity,req.query.cltxtstate,req.query.cltxtorg,req.query.cltxtcontact],function(err,result){
 
         if(err==null){
-            resp.send("inserted");
+            resp.redirect("result.html");
         }
         else{
             resp.send(err.message);
@@ -580,7 +580,7 @@ app.get("/update-client-details",function(req,resp){
                             resp.send("not updated");
                         }
                         else{
-                            resp.send("updated");
+                            resp.redirect("result.html");
                         }
                     });
     
