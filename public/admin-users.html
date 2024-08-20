@@ -16,22 +16,22 @@
             $scope.jsonaryall;
             //----------------------
 
-            $scope.doShowSel=function(){
+            // $scope.doShowSel=function(){
 
-                let utype=$scope.seltype;
+            //     let utype=$scope.seltype;
                 
 
-                let url="/show-selected?utype="+utype;
-                $http.get(url).then(allwell,notwell)
+            //     let url="/show-selected?utype="+utype;
+            //     $http.get(url).then(allwell,notwell)
                 
-                function allwell(response){
-                    $scope.jsonaryall=response.data;
-                }
-                function notwell(err){
-                    alert(err);
-                }
+            //     function allwell(response){
+            //         $scope.jsonaryall=response.data;
+            //     }
+            //     function notwell(err){
+            //         alert(err);
+            //     }
 
-            }
+            // }
             //==============================
             $scope.showalluser=function()
             {
@@ -140,11 +140,11 @@
         <button type="button" class="btn btn-primary" ng-click="showalluser();">ALL USERS</button>
 
 
-        <select ng-model="seltype" value="user type" ng-change="doShowSel();" >
+        <!-- <select ng-model="seltype" value="user type" ng-change="doShowSel();" >
 
             <option  value="influencer" >INFLUENCER</option>
             <option value="collaborater">COLLABORATOR</option>
-        </select>
+        </select> -->
         <br><br>
     
         <table  border="1"  class="table table-dark table-striped">
